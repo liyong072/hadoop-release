@@ -22,24 +22,24 @@
   <parent>
     <artifactId>hadoop-yarn-server-timelineservice-hbase-server</artifactId>
     <groupId>org.apache.hadoop</groupId>
-    <version>3.1.1.3.0.1.0-187</version>
+    <version>3.1.2-SNAPSHOT</version>
   </parent>
-
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>hadoop-yarn-server-timelineservice-hbase-server-1</artifactId>
-  <name>Apache Hadoop YARN TimelineService HBase Server 1.2</name>
-  <version>3.1.1.3.0.1.0-187</version>
+
+  <artifactId>hadoop-yarn-server-timelineservice-hbase-server-2</artifactId>
+  <name>Apache Hadoop YARN TimelineService HBase Server 2.0</name>
+  <version>3.1.2-SNAPSHOT</version>
 
   <properties>
     <!-- Needed for generating FindBugs warnings using parent pom -->
     <yarn.basedir>${project.parent.parent.parent.parent.basedir}</yarn.basedir>
     <!--Needed while compiling individual module-->
-    <hbase.version>${hbase.one.version}</hbase.version>
+    <hbase.version>${hbase.two.version}</hbase.version>
   </properties>
 
   <profiles>
     <profile>
-      <id>hbase1</id>
+      <id>hbase2</id>
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
@@ -103,6 +103,13 @@
           </exclusions>
         </dependency>
 
+        <!-- This is to work around the version divergence of
+            org.jruby.jcodings:jcodings pulled in by hbase-client -->
+        <dependency>
+          <groupId>org.jruby.jcodings</groupId>
+          <artifactId>jcodings</artifactId>
+        </dependency>
+
         <dependency>
           <groupId>org.apache.hbase</groupId>
           <artifactId>hbase-server</artifactId>
@@ -125,6 +132,10 @@
               <artifactId>hadoop-mapreduce-client-core</artifactId>
             </exclusion>
             <exclusion>
+              <groupId>org.apache.hadoop</groupId>
+              <artifactId>hadoop-distcp</artifactId>
+            </exclusion>
+            <exclusion>
               <groupId>org.mortbay.jetty</groupId>
               <artifactId>jetty</artifactId>
             </exclusion>
@@ -144,10 +155,6 @@
         <plugins>
           <plugin>
             <artifactId>maven-assembly-plugin</artifactId>
-            <configuration>
-              <descriptor>src/assembly/coprocessor.xml</descriptor>
-              <attach>true</attach>
-            </configuration>
             <executions>
               <execution>
                 <id>create-coprocessor-jar</id>
@@ -155,6 +162,10 @@
                 <goals>
                   <goal>single</goal>
                 </goals>
+                <configuration>
+                  <descriptor>src/assembly/coprocessor.xml</descriptor>
+                  <attach>true</attach>
+                </configuration>
               </execution>
             </executions>
           </plugin>

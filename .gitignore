@@ -49,3 +49,6 @@ patchprocess/
 .history/
 hadoop-yarn-project/hadoop-yarn/hadoop-yarn-ui/src/main/webapp/package-lock.json
 hadoop-yarn-project/hadoop-yarn/hadoop-yarn-ui/src/main/webapp/yarn-error.log
+hadoop-tools/hadoop-streaming/stream_uncinput_out
+*.crc
+*.log
