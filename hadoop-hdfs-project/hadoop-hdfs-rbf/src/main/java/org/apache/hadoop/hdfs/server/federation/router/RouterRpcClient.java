@@ -364,6 +364,11 @@ public class RouterRpcClient {
         final Object proxy = client.getProxy();
 
         ret = invoke(nsId, 0, method, proxy, params);
+        LOG.info("==>namenodeResolver:"+namenodeResolver+",ret:"+ret+",proxy="+proxy+",method="+method+",rpcAddress:"+rpcAddress);
+        //==>namenodeResolver:org.apache.hadoop.hdfs.server.federation.resolver.MembershipNamenodeResolver@6c51ee80,
+        // ret:org.apache.hadoop.hdfs.protocol.DirectoryListing@49c2ef81,
+        // proxy=org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolTranslatorPB@521b987a,
+        // method=public abstract org.apache.hadoop.hdfs.protocol.DirectoryListing org.apache.hadoop.hdfs.protocol.ClientProtocol.getListing(java.lang.String,byte[],boolean) throws java.io.IOException
         if (failover) {
           // Success on alternate server, update
           InetSocketAddress address = client.getAddress();
@@ -372,6 +377,7 @@ public class RouterRpcClient {
         if (this.rpcMonitor != null) {
           this.rpcMonitor.proxyOpComplete(true);
         }
+
         return ret;
       } catch (IOException ioe) {
         ioes.put(namenode, ioe);
@@ -979,6 +985,7 @@ public class RouterRpcClient {
   }
 
   /**
+   * 多线程 不同的客户端
    * Invokes multiple concurrent proxy calls to different clients. Returns an
    * array of results.
    *
@@ -1010,10 +1017,11 @@ public class RouterRpcClient {
 
     if (locations.isEmpty()) {
       throw new IOException("No remote locations available");
-    } else if (locations.size() == 1) {
+    } else if (locations.size() == 1) {//位置为1
       // Shortcut, just one call
       T location = locations.iterator().next();
       String ns = location.getNameserviceId();
+      LOG.info("locations.size() =1,ns="+ns+",location="+location.getSrc());
       final List<? extends FederationNamenodeContext> namenodes =
           getNamenodesForNameservice(ns);
       Class<?> proto = method.getProtocol();
@@ -1030,6 +1038,7 @@ public class RouterRpcClient {
           getNamenodesForNameservice(nsId);
       final Class<?> proto = method.getProtocol();
       final Object[] paramList = method.getParams(location);
+      //查询namenodes
       if (standby) {
         // Call the objectGetter to all NNs (including standby)
         for (final FederationNamenodeContext nn : namenodes) {
@@ -1061,7 +1070,7 @@ public class RouterRpcClient {
     if (rpcMonitor != null) {
       rpcMonitor.proxyOp();
     }
-
+    //多线程一部处理
     try {
       List<Future<Object>> futures = null;
       if (timeOutMs > 0) {

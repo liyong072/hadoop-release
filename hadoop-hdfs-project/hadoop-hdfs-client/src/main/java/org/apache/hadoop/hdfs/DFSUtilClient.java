@@ -725,6 +725,7 @@ public class DFSUtilClient {
     } else {
       retAddr = getNNAddress(filesystemURI);
     }
+    LOG.info("通过filesystemURI:"+filesystemURI+",获取地址:"+retAddr);
     return retAddr;
   }
 

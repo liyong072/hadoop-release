@@ -239,6 +239,8 @@ import com.google.protobuf.ByteString;
 import com.google.protobuf.Message;
 import com.google.protobuf.ServiceException;
 import org.apache.hadoop.util.concurrent.AsyncGet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class forwards NN's ClientProtocol calls as RPC calls to the NN server
@@ -294,6 +296,10 @@ public class ClientNamenodeProtocolTranslatorPB implements
   private final static GetErasureCodingCodecsRequestProto
       VOID_GET_EC_CODEC_REQUEST = GetErasureCodingCodecsRequestProto
       .newBuilder().build();
+
+
+  public static final Logger LOG = LoggerFactory
+          .getLogger(ClientNamenodeProtocolTranslatorPB.class);
 
   public ClientNamenodeProtocolTranslatorPB(ClientNamenodeProtocolPB proxy) {
     rpcProxy = proxy;
@@ -898,6 +904,7 @@ public class ClientNamenodeProtocolTranslatorPB implements
         .build();
     try {
       GetFileInfoResponseProto res = rpcProxy.getFileInfo(null, req);
+      //System.out.println("==>res="+res+",rpcProxy="+rpcProxy);
       return res.hasFs() ? PBHelperClient.convert(res.getFs()) : null;
     } catch (ServiceException e) {
       throw ProtobufHelper.getRemoteException(e);

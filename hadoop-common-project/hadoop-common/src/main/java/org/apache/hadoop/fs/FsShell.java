@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.WordUtils;
 import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.conf.Configuration;
@@ -382,6 +383,7 @@ public class FsShell extends Configured implements Tool {
    * @throws Exception upon error
    */
   public static void main(String argv[]) throws Exception {
+    LOG.info("\n\nFsShell 入参："+ ArrayUtils.toString(argv));
     FsShell shell = newShellInstance();
     Configuration conf = new Configuration();
     conf.setQuietMode(false);

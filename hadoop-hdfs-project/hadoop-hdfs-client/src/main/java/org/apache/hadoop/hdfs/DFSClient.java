@@ -152,6 +152,7 @@ import org.apache.hadoop.hdfs.protocol.datatransfer.sasl.DataEncryptionKeyFactor
 import org.apache.hadoop.hdfs.protocol.datatransfer.sasl.DataTransferSaslUtil;
 import org.apache.hadoop.hdfs.protocol.datatransfer.sasl.SaslDataTransferClient;
 import org.apache.hadoop.hdfs.protocol.proto.DataTransferProtos.BlockOpResponseProto;
+import org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolTranslatorPB;
 import org.apache.hadoop.hdfs.protocolPB.PBHelperClient;
 import org.apache.hadoop.hdfs.security.token.block.BlockTokenIdentifier;
 import org.apache.hadoop.hdfs.security.token.block.DataEncryptionKey;
@@ -339,6 +340,7 @@ public class DFSClient implements java.io.Closeable, RemotePeerFactory,
           nnFallbackToSimpleAuth);
     }
 
+    LOG.info("==>proxyInfo:"+proxyInfo+",rpcNamenode:="+rpcNamenode+",nameNodeUri:"+nameNodeUri);
     if (proxyInfo != null) {
       this.dtService = proxyInfo.getDelegationTokenService();
       this.namenode = proxyInfo.getProxy();
@@ -354,6 +356,12 @@ public class DFSClient implements java.io.Closeable, RemotePeerFactory,
           nameNodeUri, nnFallbackToSimpleAuth);
       this.dtService = proxyInfo.getDelegationTokenService();
       this.namenode = proxyInfo.getProxy();
+      LOG.info("==>proxyInfo:"+proxyInfo+",address:"+proxyInfo.getAddress());
+
+      if(namenode instanceof ClientNamenodeProtocolTranslatorPB){
+        ClientNamenodeProtocolTranslatorPB namenode1= (ClientNamenodeProtocolTranslatorPB) namenode;
+        LOG.info("==>namenode:"+namenode1.getUnderlyingProxyObject());
+      }
     }
 
     String localInterfaces[] =
@@ -1651,7 +1659,9 @@ public class DFSClient implements java.io.Closeable, RemotePeerFactory,
   public HdfsFileStatus getFileInfo(String src) throws IOException {
     checkOpen();
     try (TraceScope ignored = newPathTraceScope("getFileInfo", src)) {
-      return namenode.getFileInfo(src);
+      HdfsFileStatus fileInfo = namenode.getFileInfo(src);
+      LOG.info("===>namenode:"+namenode+",结果:"+fileInfo);
+      return fileInfo;
     } catch (RemoteException re) {
       throw re.unwrapRemoteException(AccessControlException.class,
           FileNotFoundException.class,

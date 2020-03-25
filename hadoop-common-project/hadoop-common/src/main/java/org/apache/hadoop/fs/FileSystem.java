@@ -3293,6 +3293,7 @@ public abstract class FileSystem extends Configured implements Closeable {
         FILE_SYSTEMS_LOADED = true;
       }
     }
+    LOGGER.info("Loading filesystems"+SERVICE_FILE_SYSTEMS.entrySet()+","+SERVICE_FILE_SYSTEMS.size());
   }
 
   /**
@@ -3319,6 +3320,7 @@ public abstract class FileSystem extends Configured implements Closeable {
       LOGGER.debug("looking for configuration option {}", property);
       clazz = (Class<? extends FileSystem>) conf.getClass(
           property, null);
+      LOGGER.info("==>Looking for FS supporting property:{},clazz:{}", property,clazz);
     } else {
       LOGGER.debug("No configuration: skipping check for fs.{}.impl", scheme);
     }
@@ -3350,6 +3352,7 @@ public abstract class FileSystem extends Configured implements Closeable {
     try(TraceScope scope = tracer.newScope("FileSystem#createFileSystem")) {
       scope.addKVAnnotation("scheme", uri.getScheme());
       Class<?> clazz = getFileSystemClass(uri.getScheme(), conf);
+      LOG.info("==>系统反射clazz:"+clazz+","+uri);
       FileSystem fs = (FileSystem)ReflectionUtils.newInstance(clazz, conf);
       fs.initialize(uri, conf);
       return fs;

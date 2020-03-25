@@ -126,12 +126,14 @@ public class NameNodeProxiesClient {
     AbstractNNFailoverProxyProvider<ClientProtocol> failoverProxyProvider =
         createFailoverProxyProvider(conf, nameNodeUri, ClientProtocol.class,
             true, fallbackToSimpleAuth);
-
+    LOG.info("==>failoverProxyProvider:"+failoverProxyProvider);
     if (failoverProxyProvider == null) {
       InetSocketAddress nnAddr = DFSUtilClient.getNNAddress(nameNodeUri);
       Text dtService = SecurityUtil.buildTokenService(nnAddr);
       ClientProtocol proxy = createNonHAProxyWithClientProtocol(nnAddr, conf,
           UserGroupInformation.getCurrentUser(), true, fallbackToSimpleAuth);
+
+      LOG.info("==>nnAddr:"+nnAddr+",dtService="+dtService+",proxy="+proxy);
       return new ProxyAndInfo<>(proxy, dtService, nnAddr);
     } else {
       return createHAProxy(conf, nameNodeUri, ClientProtocol.class,

@@ -113,10 +113,42 @@ class FederationBlock extends HtmlBlock {
         Collections.sort(subclusters, cmp);
 
         for (SubClusterInfo subcluster : subclusters) {
+          LOG.info("==>subcluster info:"+subcluster);
           SubClusterId subClusterId = subcluster.getSubClusterId();
           String webAppAddress = subcluster.getRMWebServiceAddress();
           String capability = subcluster.getCapability();
+          LOG.info("==>capability info:"+capability);
           ClusterMetricsInfo subClusterInfo = getClusterMetricsInfo(capability);
+          if (subClusterInfo == null) {
+            LOG.error("subClusterInfo is null");
+
+            tbody.tr().td().a("//" + webAppAddress, subClusterId.toString()).__()
+                    .td("0")
+                    .td("0")
+                    .td("0")
+                    .td("0")
+                    .td("0")
+                    .td("0")
+                    .td("0")
+                    .td("0")
+                    .td("0")
+                    .td(StringUtils.byteDesc(0 * BYTES_IN_MB))
+                    .td(StringUtils.byteDesc(0 * BYTES_IN_MB))
+                    .td(StringUtils.byteDesc(0* BYTES_IN_MB))
+                    .td(StringUtils.byteDesc(0 * BYTES_IN_MB))
+                    .td("0")
+                    .td("0")
+                    .td("0")
+                    .td("0")
+                    .td("0")
+                    .td("0")
+                    .td("0")
+                    .td("0")
+                    .td("0")
+                    .td("0").__();
+
+            continue;
+          }
 
           // Building row per SubCluster
           tbody.tr().td().a("//" + webAppAddress, subClusterId.toString()).__()

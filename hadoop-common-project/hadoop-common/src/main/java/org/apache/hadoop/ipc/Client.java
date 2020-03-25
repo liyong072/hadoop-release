@@ -114,7 +114,7 @@ public class Client implements AutoCloseable {
   public static void setCallIdAndRetryCount(int cid, int rc,
                                             Object externalHandler) {
     Preconditions.checkArgument(cid != RpcConstants.INVALID_CALL_ID);
-    Preconditions.checkState(callId.get() == null);
+   // Preconditions.checkState(callId.get() == null);
     Preconditions.checkArgument(rc != RpcConstants.INVALID_RETRY_COUNT);
 
     callId.set(cid);

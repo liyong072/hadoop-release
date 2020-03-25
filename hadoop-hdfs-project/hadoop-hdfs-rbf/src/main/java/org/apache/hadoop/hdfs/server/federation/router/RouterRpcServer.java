@@ -1137,6 +1137,7 @@ public class RouterRpcServer extends AbstractService
 
   @Override // ClientProtocol
   public HdfsFileStatus getFileInfo(String src) throws IOException {
+    LOG.info("==>path："+src);
     checkOperation(OperationCategory.READ);
 
     final List<RemoteLocation> locations = getLocationsForPath(src, false);

@@ -377,6 +377,7 @@ public class ConnectionPool {
     ClientNamenodeProtocolPB proxy = RPC.getProtocolProxy(
         ClientNamenodeProtocolPB.class, version, socket, ugi, conf,
         factory, RPC.getRpcTimeout(conf), defaultPolicy, null).getProxy();
+    LOG.info("==>nnAddress="+nnAddress+",proxy="+proxy);
     ClientProtocol client = new ClientNamenodeProtocolTranslatorPB(proxy);
     Text dtService = SecurityUtil.buildTokenService(socket);
 
