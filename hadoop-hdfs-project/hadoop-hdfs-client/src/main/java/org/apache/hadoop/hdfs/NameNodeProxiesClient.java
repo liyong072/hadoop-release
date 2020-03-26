@@ -324,6 +324,7 @@ public class NameNodeProxiesClient {
             config.getMaxRetryAttempts(), config.getFailoverSleepBaseMillis(),
             config.getFailoverSleepMaxMillis()));
 
+    LOG.info("==>"+proxy);
     Text dtService;
     if (failoverProxyProvider.useLogicalURI()) {
       dtService = HAUtilClient.buildTokenServiceForLogicalUri(nameNodeUri,

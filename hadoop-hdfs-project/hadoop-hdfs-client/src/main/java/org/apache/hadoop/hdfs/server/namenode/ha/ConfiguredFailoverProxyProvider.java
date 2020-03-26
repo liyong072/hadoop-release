@@ -91,6 +91,7 @@ public class ConfiguredFailoverProxyProvider<T> extends
 
       Collection<InetSocketAddress> addressesOfNns = addressesInNN.values();
       for (InetSocketAddress address : addressesOfNns) {
+        LOG.info("==>地址:"+address);
         proxies.add(new AddressRpcProxyPair<T>(address));
       }
       // Randomize the list to prevent all clients pointing to the same one
@@ -158,6 +159,7 @@ public class ConfiguredFailoverProxyProvider<T> extends
         throw new RuntimeException(e);
       }
     }
+    LOG.info("==>获取代理地址："+current.namenode+","+ current.address.toString());
     return new ProxyInfo<T>(current.namenode, current.address.toString());
   }
 

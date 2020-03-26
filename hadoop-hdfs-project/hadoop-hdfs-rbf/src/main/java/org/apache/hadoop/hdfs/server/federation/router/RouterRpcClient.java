@@ -254,6 +254,8 @@ public class RouterRpcClient {
       // important due to the excessive overhead of creating a new proxy wrapper
       // for each individual request.
 
+
+      LOG.info("获取连接 User {} NN {} ",ugi.getUserName(), rpcAddress);
       // TODO Add tokens from the federated UGI
       connection = this.connectionManager.getConnection(ugi, rpcAddress, proto);
       LOG.debug("User {} NN {} is using connection {}",

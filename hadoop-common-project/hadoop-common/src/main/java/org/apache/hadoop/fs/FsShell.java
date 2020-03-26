@@ -383,7 +383,7 @@ public class FsShell extends Configured implements Tool {
    * @throws Exception upon error
    */
   public static void main(String argv[]) throws Exception {
-    LOG.info("\n\nFsShell 入参："+ ArrayUtils.toString(argv));
+    LOG.info("==>FsShell 入参："+ ArrayUtils.toString(argv)+"\n\n");
     FsShell shell = newShellInstance();
     Configuration conf = new Configuration();
     conf.setQuietMode(false);
