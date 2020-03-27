@@ -18,6 +18,7 @@
 package org.apache.hadoop.io.retry;
 
 import com.google.common.annotations.VisibleForTesting;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.io.retry.FailoverProxyProvider.ProxyInfo;
 import org.apache.hadoop.io.retry.RetryPolicy.RetryAction;
@@ -351,6 +352,7 @@ public class RetryInvocationHandler<T> implements RpcInvocationHandler {
   @Override
   public Object invoke(Object proxy, Method method, Object[] args)
       throws Throwable {
+    LOG.info("==>hander 被执行method"+method+","+ ArrayUtils.toString(args));
     final boolean isRpc = isRpcInvocation(proxyDescriptor.getProxy());
     final int callId = isRpc? Client.nextCallId(): RpcConstants.INVALID_CALL_ID;
 
