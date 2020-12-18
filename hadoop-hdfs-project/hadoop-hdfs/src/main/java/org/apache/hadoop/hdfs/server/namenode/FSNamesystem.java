@@ -698,7 +698,7 @@ public class FSNamesystem implements Namesystem, FSNamesystemMBean,
    * @throws IOException if loading fails
    */
   static FSNamesystem loadFromDisk(Configuration conf) throws IOException {
-
+    LOG.info("====>start load namenodedata FromDisk");
     checkConfiguration(conf);
     FSImage fsImage = new FSImage(conf,
         FSNamesystem.getNamespaceDirs(conf),
@@ -724,6 +724,7 @@ public class FSNamesystem implements Namesystem, FSNamesystemMBean,
       nnMetrics.setFsImageLoadTime((int) timeTakenToLoadFSImage);
     }
     namesystem.getFSDirectory().createReservedStatuses(namesystem.getCTime());
+    LOG.info("====> load namenodedata FromDisk 结束");
     return namesystem;
   }
   
@@ -1073,7 +1074,7 @@ public class FSNamesystem implements Namesystem, FSNamesystemMBean,
 
   private void loadFSImage(StartupOption startOpt) throws IOException {
     final FSImage fsImage = getFSImage();
-
+    LOG.info("===>loadFSImage startOpt:"+startOpt);
     // format before starting up if requested
     if (startOpt == StartupOption.FORMAT) {
       
@@ -1117,6 +1118,7 @@ public class FSNamesystem implements Namesystem, FSNamesystemMBean,
       writeUnlock("loadFSImage", true);
     }
     imageLoadComplete();
+    LOG.info("===>loadFSImage 结束");
   }
 
   private void startSecretManager() {

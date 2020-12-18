@@ -356,6 +356,7 @@ extends AMRMClientAsync<T> {
             continue;
           }
           if (object instanceof Throwable) {
+            LOG.info("====> 打印异常",object);
             progress = handler.getProgress();
             handler.onError((Throwable) object);
             continue;
@@ -376,12 +377,14 @@ extends AMRMClientAsync<T> {
 
           List<NodeReport> updatedNodes = response.getUpdatedNodes();
           if (!updatedNodes.isEmpty()) {
+            LOG.info("====> 打印updatedNodes 节点"+updatedNodes);
             handler.onNodesUpdated(updatedNodes);
           }
 
           List<ContainerStatus> completed =
               response.getCompletedContainersStatuses();
           if (!completed.isEmpty()) {
+            LOG.info("====> completed 节点"+completed);
             handler.onContainersCompleted(completed);
           }
 
@@ -398,6 +401,7 @@ extends AMRMClientAsync<T> {
 
           List<Container> allocated = response.getAllocatedContainers();
           if (!allocated.isEmpty()) {
+            LOG.info("====> allocated 节点"+allocated);
             handler.onContainersAllocated(allocated);
           }
 
@@ -411,6 +415,7 @@ extends AMRMClientAsync<T> {
           List<RejectedSchedulingRequest> rejectedSchedulingRequests =
               response.getRejectedSchedulingRequests();
           if (!rejectedSchedulingRequests.isEmpty()) {
+            LOG.info("====> rejectedSchedulingRequests 节点"+rejectedSchedulingRequests);
             if (handler instanceof AMRMClientAsync.AbstractCallbackHandler) {
               ((AMRMClientAsync.AbstractCallbackHandler) handler)
                   .onRequestsRejected(rejectedSchedulingRequests);

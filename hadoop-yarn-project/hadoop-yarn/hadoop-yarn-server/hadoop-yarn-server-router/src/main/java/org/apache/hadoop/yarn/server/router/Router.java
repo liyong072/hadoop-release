@@ -149,7 +149,8 @@ public class Router extends CompositeService {
   }
 
   @VisibleForTesting
-  public void startWepApp() {
+  public void startWepApp
+          () {
 
     RMWebAppUtil.setupSecurityAndFilters(conf, null);
 

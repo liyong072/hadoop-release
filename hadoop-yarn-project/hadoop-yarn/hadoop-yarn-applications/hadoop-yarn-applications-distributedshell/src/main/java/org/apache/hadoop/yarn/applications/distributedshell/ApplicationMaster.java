@@ -931,6 +931,7 @@ public class ApplicationMaster {
     // and we need to release containers
     for (Thread launchThread : launchThreads) {
       try {
+        LOG.info("===>线程"+launchThread.getName()+"状态:"+launchThread.getState());
         launchThread.join(10000);
       } catch (InterruptedException e) {
         LOG.info("Exception thrown in thread join: " + e.getMessage());

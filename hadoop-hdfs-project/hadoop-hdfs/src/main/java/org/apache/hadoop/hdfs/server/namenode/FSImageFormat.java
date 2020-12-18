@@ -221,6 +221,7 @@ public class FSImageFormat {
         byte[] magic = new byte[FSImageUtil.MAGIC_HEADER.length];
         IOUtils.readFully(is, magic, 0, magic.length);
         if (Arrays.equals(magic, FSImageUtil.MAGIC_HEADER)) {
+          LOG.info("===>loader 选择 "+FSImageUtil.MAGIC_HEADER);
           FSImageFormatProtobuf.Loader loader = new FSImageFormatProtobuf.Loader(
               conf, fsn, requireSameLayoutVersion);
           impl = loader;

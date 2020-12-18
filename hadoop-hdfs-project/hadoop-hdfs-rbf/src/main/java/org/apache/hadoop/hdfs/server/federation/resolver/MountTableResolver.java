@@ -375,6 +375,7 @@ public class MountTableResolver
   }
 
   /**
+   * 不存在缓存查询缓存
    * Build the path location to insert into the cache atomically. It must hold
    * the read lock.
    * @param path Path to check/insert.

@@ -275,8 +275,10 @@ public final class FederationStateStoreFacade {
       final boolean filterInactiveSubClusters) throws YarnException {
     try {
       if (isCachingEnabled()) {
+        Object k = buildGetSubClustersCacheRequest(filterInactiveSubClusters);
+        LOG.info("排错打印日志k="+k+","+cache.iterator().toString());
         return (Map<SubClusterId, SubClusterInfo>) cache
-            .get(buildGetSubClustersCacheRequest(filterInactiveSubClusters));
+            .get(k);
       } else {
         return buildSubClusterInfoMap(stateStore.getSubClusters(
             GetSubClustersInfoRequest.newInstance(filterInactiveSubClusters)));

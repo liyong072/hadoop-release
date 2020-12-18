@@ -248,7 +248,7 @@ public final class FSImageFormatProtobuf {
             summary.getCodec(), in);
 
         String n = s.getName();
-
+        LOG.info("===> 打印:"+SectionName.fromString(n));
         switch (SectionName.fromString(n)) {
         case NS_INFO:
           loadNameSystemSection(in);

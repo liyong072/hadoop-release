@@ -999,7 +999,7 @@ public class AMRMClientImpl<T extends ContainerRequest> extends AMRMClient<T> {
     }
   }
 
-  private void addResourceRequestToAsk(ResourceRequest remoteRequest) {
+  private void  addResourceRequestToAsk(ResourceRequest remoteRequest) {
     // This code looks weird but is needed because of the following scenario.
     // A ResourceRequest is removed from the remoteRequestTable. A 0 container 
     // request is added to 'ask' to notify the RM about not needing it any more.

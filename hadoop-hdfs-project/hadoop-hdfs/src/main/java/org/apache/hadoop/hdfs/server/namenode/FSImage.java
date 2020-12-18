@@ -360,6 +360,8 @@ public class FSImage implements Closeable {
     for (Iterator<StorageDirectory> it = 
                       storage.dirIterator(); it.hasNext();) {
       StorageDirectory sd = it.next();
+
+      LOG.info("===>sd:"+sd);
       StorageState curState;
       if (startOpt == StartupOption.METADATAVERSION) {
         /* All we need is the layout version. */
